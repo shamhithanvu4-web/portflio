@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shamhithan V U | Stories & Systems</title>
+
+    <!-- Fonts: Nunito for warm storytelling, JetBrains Mono for technical precision -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Nunito:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           DESIGN TOKENS — Blue Hero + White Notebook Body
+           ============================================================ */
+        :root {
+            /* The Exact Blue Hero Background */
+            --bg-deep: #009EE3; 
+            
+            /* Text colors for the white body */
+            --text-black: #073B4C; /* Deep ink instead of harsh pure black */
+            --text-muted: #4B6570;
+
+            /* The Notebook Paper */
+            --paper: #FFFCF5;
+            --ruled-line: rgba(0, 158, 227, 0.08);
+
+            /* Accent Colors */
+            --luxo-yellow: #FDD835;
+            --star-red: #E53935;
+            --block-blue: #2980B9;
+            --alien-green: #43A047;
+            --aqua: #95D9C0;
+
+            /* Ink borders and shadows */
+            --border-ink: #004d73; 
+
+            /* Bounce physics */
+            --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            /* Hard Offset Shadows for Cards */
+            --shadow-hard-yellow: 6px 6px 0px rgba(253, 216, 53, 0.5);
+            --shadow-hard-yellow-hover: 10px 10px 0px rgba(253, 216, 53, 0.6);
+            --shadow-hard-blue: 6px 6px 0px rgba(41, 128, 185, 0.35);
+            --shadow-hard-blue-hover: 10px 10px 0px rgba(41, 128, 185, 0.48);
+            --shadow-hard-red: 6px 6px 0px rgba(229, 57, 53, 0.32);
+            --shadow-hard-red-hover: 10px 10px 0px rgba(229, 57, 53, 0.45);
+            --shadow-hard-green: 6px 6px 0px rgba(67, 160, 71, 0.32);
+            --shadow-hard-green-hover: 10px 10px 0px rgba(67, 160, 71, 0.45);
+
+            /* Typography */
+            --font-story: 'Nunito', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        /* ============================================================
+           RESET & CORE BODY
+           ============================================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            /* The body is now the warm notebook paper */
+            background-color: var(--paper);
+            color: var(--text-black);
+            font-family: var(--font-story);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        ::selection { background: var(--luxo-yellow); color: var(--text-black); }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-deep); border-radius: 4px; }
+
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--luxo-yellow); outline-offset: 3px; border-radius: 2px;
+        }
+
+        /* ============================================================
+           HEADER / NAVBAR (Stays Blue to blend with Hero)
+           ============================================================ */
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(0, 158, 227, 0.95);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--border-ink);
+            padding: 0.7rem 1.25rem;
+            transition: padding 0.2s ease, box-shadow 0.2s ease;
+        }
+        header.scrolled { padding: 0.45rem 1.25rem; box-shadow: 0 4px 15px rgba(0, 77, 115, 0.3); border-bottom-color: var(--border-ink); }
+        @media (min-width:640px) { header { padding: 0.85rem 2rem; } header.scrolled { padding: 0.50rem 2rem; } }
+
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+        .logo {
+            font-family: var(--font-code); font-weight: 700; font-size: 0.95rem; letter-spacing: -0.3px;
+            color: var(--text-black); text-decoration: none; background: #FFFFFF; padding: 5px 12px;
+            border-radius: 5px; border: 2px solid var(--border-ink); box-shadow: 3px 3px 0px var(--luxo-yellow);
+            transform: rotate(-1deg); display: inline-block; transition: transform 0.3s var(--bounce), box-shadow 0.3s var(--bounce);
+        }
+        .logo:hover { transform: rotate(0deg) translate(-2px, -2px); box-shadow: 5px 5px 0px var(--luxo-yellow); }
+
+        .nav-links { display: none; align-items: center; gap: 2rem; }
+        @media (min-width:768px) { .nav-links { display: flex; } }
+
+        .nav-links a {
+            text-decoration: none; color: #FFFFFF; font-size: 0.75rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.06em; position: relative; padding-bottom: 2px;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 2px;
+            background: var(--luxo-yellow); transition: width 0.25s ease; border-radius: 1px;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--luxo-yellow); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+        .nav-cta {
+            display: none; background: var(--luxo-yellow); color: var(--text-black); text-decoration: none;
+            font-size: 0.75rem; font-weight: 800; padding: 0.45rem 1.4rem; border-radius: 9999px;
+            border: 2px solid var(--border-ink); transition: all 0.2s; letter-spacing: 0.03em; text-transform: uppercase;
+        }
+        @media (min-width:768px) { .nav-cta { display: inline-block; } }
+        .nav-cta:hover { background: #f5c842; transform: translateY(-2px); box-shadow: 4px 4px 0px var(--border-ink); }
+
+        .hamburger {
+            display: flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem;
+            border-radius: 9999px; border: none; background: transparent; cursor: pointer; color: #FFFFFF;
+            transition: background 0.2s;
+        }
+        .hamburger:hover { background: rgba(255, 255, 255, 0.1); }
+        @media (min-width:768px) { .hamburger { display: none; } }
+
+        /* Mobile dropdown menu — previously had zero CSS, so toggling .open did nothing */
+        .mobile-menu {
+            max-height: 0; overflow: hidden; opacity: 0;
+            transition: max-height 0.4s var(--bounce), opacity 0.25s ease;
+        }
+        .mobile-menu.open { max-height: 24rem; opacity: 1; }
+        .mobile-menu-inner {
+            display: flex; flex-direction: column; gap: 0.15rem;
+            padding: 0.75rem 0 0.25rem; border-top: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.7rem;
+        }
+        .mobile-menu-inner a {
+            text-decoration: none; color: #FFFFFF; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.05em; font-size: 0.85rem; padding: 0.7rem 0.5rem; border-radius: 6px;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-menu-inner a:hover, .mobile-menu-inner a:active {
+            background: rgba(255, 255, 255, 0.12); color: var(--luxo-yellow); transform: translateX(4px);
+        }
+        @media (min-width:768px) { .mobile-menu { display: none; } }
+
+        /* ============================================================
+           HERO SECTION (The Isolated Blue Spark)
+           ============================================================ */
+        .hero { 
+            position: relative; overflow: hidden; background-color: var(--bg-deep); 
+            min-height: 65vh; display: flex; flex-direction: column; justify-content: center; 
+            padding: 6rem 5% 4rem; z-index: 1; border-bottom: 4px solid var(--border-ink);
+        }
+
+        /* Hero Background Overlays inside the hero only */
+        .hero .scanlines {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.05) 50%), linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+            background-size: 100% 4px, 6px 100%; z-index: 1; pointer-events: none; opacity: 0.3;
+        }
+        .hero .grid-bg {
+            position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+            background-size: 32px 32px; pointer-events: none; z-index: 1; opacity: 0.4;
+        }
+        .hero .glow-orb--yellow { position: absolute; width: 400px; height: 400px; top: -100px; right: -80px; background: radial-gradient(circle, rgba(253, 216, 53, 0.25) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 1; }
+
+        /* Scroll progress bar — fixed strip pinned to the very top of the viewport */
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+            background: linear-gradient(90deg, var(--luxo-yellow), var(--star-red));
+            z-index: 200; border-radius: 0 3px 3px 0;
+            transition: width 0.12s linear;
+            will-change: width;
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 1050px; margin: 0 auto; width: 100%; }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 900; line-height: 1.15; letter-spacing: -0.02em;
+            margin-bottom: 1.5rem; color: #FFFFFF; text-shadow: 0 4px 12px rgba(0, 77, 115, 0.5);
+            opacity: 0; animation: heroFadeUp 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .hero h1 .story {
+            position: relative; display: inline-block; z-index: 1; color: #FFFFFF;
+            /* Delay matches the marker's own draw time (0.4s delay + 1.2s duration = 1.6s)
+               so the text only darkens once the yellow highlight has fully painted in. */
+            transition: color 0.35s ease 1.6s;
+        }
+        .hero h1 .story::after {
+            content: ''; position: absolute; height: 110%; bottom: -5%; left: -2%; background-color: var(--luxo-yellow);
+            z-index: -1; border-radius: 4px; transform: rotate(-1.5deg); width: 0;
+            animation: drawMarker 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 0.4s;
+            box-shadow: 0 4px 20px rgba(253, 216, 53, 0.4);
+        }
+        @keyframes drawMarker { 0% { width: 0; } 100% { width: 105%; } }
+        @keyframes heroFadeUp { from { opacity: 0; transform: translateY(20px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+        .spark-icon {
+            position: absolute; top: -16px; right: -24px; width: 24px; height: 24px;
+            fill: var(--luxo-yellow); filter: drop-shadow(0 2px 5px rgba(253, 216, 53, 0.6));
+            animation: floatSpark 3s ease-in-out infinite; pointer-events: none; z-index: 2;
+        }
+        @keyframes floatSpark { 0%, 100% { transform: translateY(0) rotate(0deg) scale(1); } 50% { transform: translateY(-9px) rotate(14deg) scale(1.12); } }
+
+        .hero p {
+            font-size: 1.2rem; color: #FFFFFF; max-width: 700px; font-weight: 600; line-height: 1.8;
+            text-shadow: 0 2px 4px rgba(0, 77, 115, 0.5); opacity: 0;
+            animation: heroFadeUp 0.8s 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .hero .typewriter-wrap {
+            margin-top: 1.5rem; font-size: clamp(0.95rem, 2vw, 1.15rem); color: #FFFFFF; font-weight: 600;
+            min-height: 2em; display: flex; align-items: center; gap: 0; opacity: 0;
+            animation: heroFadeUp 0.8s 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            text-shadow: 0 2px 4px rgba(0, 77, 115, 0.5);
+        }
+        #typewriter-text { font-family: var(--font-code); color: var(--luxo-yellow); font-weight: 700; }
+        #typewriter-cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--luxo-yellow); margin-left: 2px; vertical-align: -3px; animation: cursorBlink 1s step-end infinite; }
+        @keyframes cursorBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .hero-cta-row { margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: heroFadeUp 0.8s 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+        .btn-primary {
+            background: var(--luxo-yellow); color: var(--text-black); padding: 0.85rem 2.2rem; border-radius: 9999px;
+            text-decoration: none; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+            transition: all 0.3s ease; display: inline-block; border: 2px solid var(--border-ink); cursor: pointer;
+            box-shadow: 4px 4px 0px var(--border-ink);
+        }
+        .btn-primary:hover { background: #f5c842; transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border-ink); }
+
+        .btn-secondary {
+            background: transparent; color: #FFFFFF; padding: 0.83rem 2.2rem; border-radius: 9999px;
+            text-decoration: none; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+            transition: all 0.3s ease; display: inline-block; border: 2px solid rgba(255, 255, 255, 0.7);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12); border-color: var(--luxo-yellow); color: var(--luxo-yellow);
+            transform: translate(-2px, -2px);
+        }
+
+        /* ============================================================
+           SECTIONS (White Body)
+           ============================================================ */
+        .section { position: relative; z-index: 2; padding: 5rem 5%; max-width: 1200px; margin: 0 auto; scroll-margin-top: 5rem; }
+        @media (min-width:640px) { .section { padding: 5rem 2rem; } }
+
+        .section-head { margin-bottom: 2.5rem; }
+
+        /* All headers use the Neo-Brutalist badge look now to pop against white */
+        .section h2 {
+            font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 800; color: var(--text-black);
+            background: var(--luxo-yellow); padding: 0.35rem 1.2rem 0.4rem; border-radius: 6px;
+            border: 2px solid var(--border-ink); box-shadow: 4px 4px 0px var(--border-ink);
+            position: relative; display: inline-block; font-family: var(--font-code);
+            transform: rotate(-1.2deg); transition: transform 0.3s var(--bounce), box-shadow 0.3s var(--bounce);
+        }
+        .section h2:hover { transform: rotate(0deg) translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border-ink); }
+
+        /* Section heading pop-in — previously added by JS but never given a CSS effect */
+        .section h2.line-drawn { animation: badgePop 0.5s var(--bounce) both; }
+        @keyframes badgePop {
+            0% { transform: rotate(-1.2deg) scale(0.82); }
+            60% { transform: rotate(-1.2deg) scale(1.08); }
+            100% { transform: rotate(-1.2deg) scale(1); }
+        }
+
+        .section-desc { color: var(--text-muted); font-size: 1.05rem; max-width: 600px; line-height: 1.7; margin-top: 1rem; font-weight: 600; }
+
+        /* Scroll Reveal Utility */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.revealed { opacity: 1; transform: translateY(0); }
+        .reveal-stagger>* { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .reveal-stagger.revealed>*:nth-child(1) { opacity: 1; transform: none; transition-delay: 0ms; }
+        .reveal-stagger.revealed>*:nth-child(2) { opacity: 1; transform: none; transition-delay: 80ms; }
+        .reveal-stagger.revealed>*:nth-child(3) { opacity: 1; transform: none; transition-delay: 160ms; }
+        .reveal-stagger.revealed>*:nth-child(4) { opacity: 1; transform: none; transition-delay: 240ms; }
+        .reveal-stagger.revealed>*:nth-child(n+5) { opacity: 1; transform: none; transition-delay: 320ms; }
+        .reveal-left { opacity: 0; transform: translateX(-28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal-left.revealed { opacity: 1; transform: translateX(0); }
+
+        /* ============================================================
+           ABOUT
+           ============================================================ */
+        .about-container { display: flex; gap: 3.5rem; align-items: center; flex-wrap: wrap; }
+        .about-image { flex-shrink: 0; position: relative; }
+        .about-image img {
+            width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 3px solid var(--border-ink);
+            box-shadow: 6px 6px 0px var(--luxo-yellow); transition: transform 0.35s var(--bounce), box-shadow 0.35s var(--bounce);
+            display: block; background: #FFFFFF;
+        }
+        .about-image img:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0px var(--luxo-yellow); }
+
+        .about-text { flex: 1; min-width: 280px; }
+        .about-text p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.75; font-weight: 600; }
+        .about-text p strong { color: var(--text-black); font-weight: 900; }
+
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1.5rem; }
+        .skill-tag {
+            background: #FFFFFF; border: 2px solid var(--border-ink); padding: 5px 16px;
+            border-radius: 6px; font-size: 0.75rem; color: var(--text-black); font-family: var(--font-code);
+            font-weight: 700; box-shadow: 2px 2px 0px var(--border-ink); transition: all 0.2s;
+        }
+        .skill-tag:hover { background: var(--luxo-yellow); transform: translate(-2px, -2px); box-shadow: 4px 4px 0px var(--border-ink); }
+
+        /* ============================================================
+           WORK — Timeline
+           ============================================================ */
+        .timeline { position: relative; padding-left: 28px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 6px; top: 8px; bottom: 0; width: 3px;
+            background: var(--border-ink); border-radius: 2px;
+        }
+        .timeline-item { position: relative; padding-bottom: 2.5rem; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot {
+            position: absolute; left: -29px; top: 6px; width: 16px; height: 16px; border-radius: 50%;
+            background: var(--luxo-yellow); border: 3px solid var(--border-ink);
+            transition: transform 0.2s var(--bounce);
+        }
+        .timeline-item:hover .timeline-dot { transform: scale(1.2); }
+        .timeline-item h3 { font-size: 1.3rem; font-weight: 900; color: var(--text-black); margin-bottom: 0.2rem; }
+        .timeline-item .subtitle { color: var(--bg-deep); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; font-family: var(--font-code); }
+        .timeline-item p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.65; font-weight: 600; }
+
+        /* ============================================================
+           PROJECTS, RESUME, & CONTACT CARDS (The identical brutalist animation)
+           ============================================================ */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+
+        .card {
+            background-color: #FFFFFF;
+            background-image: repeating-linear-gradient(transparent, transparent 1.7rem, var(--ruled-line) 1.7rem, var(--ruled-line) calc(1.7rem + 1px));
+            background-position: 0 0.4rem;
+            border: 3px solid var(--border-ink);
+            border-radius: 10px;
+            padding: 2rem 1.75rem;
+            transition: transform 0.4s var(--bounce), box-shadow 0.4s var(--bounce);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-hard-yellow);
+        }
+        .card:hover {
+            transform: translate(-6px, -6px);
+            box-shadow: var(--shadow-hard-yellow-hover);
+        }
+        
+        /* Colored shadow variations for cards */
+        .card.card--eng { box-shadow: var(--shadow-hard-blue); }
+        .card.card--eng:hover { box-shadow: var(--shadow-hard-blue-hover); }
+        .card.card--code { box-shadow: var(--shadow-hard-red); }
+        .card.card--code:hover { box-shadow: var(--shadow-hard-red-hover); }
+        .card.card--game { box-shadow: var(--shadow-hard-green); }
+        .card.card--game:hover { box-shadow: var(--shadow-hard-green-hover); }
+
+        .card .card-tag {
+            font-family: var(--font-code); font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 1.5px; margin-bottom: 1.2rem; display: inline-block; padding: 5px 14px;
+            border-radius: 4px; align-self: flex-start; background: var(--luxo-yellow); color: var(--text-black);
+            border: 2px solid var(--border-ink); box-shadow: 3px 3px 0px var(--border-ink);
+            transition: transform 0.25s var(--bounce), box-shadow 0.25s var(--bounce);
+        }
+        .card:hover .card-tag { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--border-ink); }
+        .card .card-tag.engineering { background: var(--block-blue); color: #FFF; }
+        .card .card-tag.coding { background: var(--star-red); color: #FFF; }
+        .card .card-tag.game { background: var(--alien-green); color: #FFF; }
+
+        .card h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 0.6rem; line-height: 1.3; color: var(--text-black); background: #FFFFFF; display: inline; padding-right: 10px; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; flex: 1; font-weight: 700; margin-top: 0.5rem;}
+        .card p b { color: var(--text-black); font-weight: 900; }
+
+        .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.2rem; }
+        .project-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); background: var(--paper); padding: 3px 12px; border-radius: 4px; border: 1px solid var(--text-muted); font-weight: 800; font-family: var(--font-code); }
+
+        /* ============================================================
+           HOBBIES / TAGS (SVG Icons only)
+           ============================================================ */
+        .tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .tag {
+            background: #FFFFFF; color: var(--text-black); padding: 0.5rem 1rem; border-radius: 6px;
+            font-size: 0.85rem; font-weight: 800; border: 2px solid var(--border-ink); cursor: default;
+            transition: all 0.2s var(--bounce); display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 3px 3px 0px var(--border-ink);
+        }
+        .tag svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s var(--bounce); }
+        .tag:hover { background: var(--luxo-yellow); transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--border-ink); }
+        .tag:hover svg { transform: scale(1.15) rotate(5deg); }
+
+        /* ============================================================
+           CONTACT (Wrapped in Cards)
+           ============================================================ */
+        .contact-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+
+        .contact-info p { margin-bottom: 1rem; color: var(--text-black); font-size: 0.95rem; font-weight: 700; display: flex; flex-direction: column; }
+        .contact-info a { color: var(--bg-deep); text-decoration: none; font-weight: 900; transition: color 0.2s; }
+        .contact-info a:hover { color: var(--star-red); text-decoration: underline; }
+        .contact-info .label { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 800; margin-bottom: 2px; font-family: var(--font-code); }
+        
+        .field-wrap { position: relative; margin-bottom: 1.2rem; }
+        .field-wrap label {
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 0.95rem; color: var(--text-muted);
+            transition: all 0.2s ease; pointer-events: none; font-weight: 700; background: #FFFFFF; padding: 0 4px;
+        }
+        .field-wrap.textarea-wrap label { top: 1.2rem; transform: none; }
+        .field-wrap input:focus~label, .field-wrap input:not(:placeholder-shown)~label,
+        .field-wrap textarea:focus~label, .field-wrap textarea:not(:placeholder-shown)~label {
+            top: -0.6rem; left: 0.75rem; font-size: 0.7rem; color: var(--bg-deep); font-weight: 900; letter-spacing: 0.04em;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%; padding: 1rem; border: 2px solid var(--border-ink); border-radius: 6px;
+            font-size: 0.95rem; font-family: var(--font-story); resize: vertical; outline: none;
+            background: #FFFFFF; color: var(--text-black); transition: border-color 0.2s, box-shadow 0.2s; font-weight: 700;
+        }
+        .contact-form input::placeholder, .contact-form textarea::placeholder { color: transparent; }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--bg-deep); box-shadow: 4px 4px 0px var(--luxo-yellow); }
+        .contact-form textarea { min-height: 120px; }
+
+        .contact-form button {
+            align-self: flex-start; background: var(--luxo-yellow); color: var(--text-black); border: 2px solid var(--border-ink); padding: 0.85rem 2.5rem;
+            border-radius: 6px; font-weight: 900; font-size: 0.9rem; cursor: pointer;
+            transition: all 0.2s var(--bounce); font-family: var(--font-code);
+            text-transform: uppercase; letter-spacing: 0.04em; box-shadow: 4px 4px 0px var(--border-ink);
+            width: 100%;
+        }
+        .contact-form button:hover { background: #f5c842; transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border-ink); }
+        .contact-form button:active { transform: scale(0.97); }
+
+        /* ============================================================
+           RESUME BUTTON (previously unstyled)
+           ============================================================ */
+        .resume-btn {
+            display: inline-flex; align-items: center; gap: 8px; background: var(--luxo-yellow);
+            color: var(--text-black); text-decoration: none; padding: 0.75rem 1.8rem; border-radius: 9999px;
+            font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em;
+            border: 2px solid var(--border-ink); box-shadow: 4px 4px 0px var(--border-ink);
+            transition: all 0.3s var(--bounce); font-family: var(--font-code);
+        }
+        .resume-btn:hover { background: #f5c842; transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border-ink); }
+        .resume-btn svg { transition: transform 0.3s var(--bounce); }
+        .resume-btn:hover svg { transform: translateY(3px); }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        footer {
+            text-align: center; padding: 2.5rem 5%; color: var(--text-muted);
+            border-top: 2px solid var(--border-ink); font-size: 0.85rem; letter-spacing: 0.01em;
+            background: #FFFFFF; font-family: var(--font-code); font-weight: 700;
+        }
+        footer span { color: var(--bg-deep); font-weight: 900; }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width:768px) {
+            .hero { padding-top: 3rem; padding-bottom: 3rem; min-height: 50vh; border-bottom: 2px solid var(--border-ink); }
+            .hero h1 { font-size: 2.4rem; }
+            .about-container { flex-direction: column; text-align: left; }
+            .about-image { margin: 0 auto; }
+            .timeline { padding-left: 22px; }
+            .section { padding: 3.5rem 1.5rem; }
+            .card { padding: 1.5rem; }
+            .hero-cta-row { flex-direction: column; }
+            .hero-cta-row .btn-primary, .hero-cta-row .btn-secondary { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="site-header">
+        <div class="nav-container">
+            <a href="#" class="logo">Shamhithan<span> V U</span></a>
+            <nav class="nav-links" id="nav-links">
+                <a href="#about" data-section="about">About</a>
+                <a href="#work" data-section="work">Work</a>
+                <a href="#projects" data-section="projects">Projects</a>
+                <a href="#hobbies" data-section="hobbies">Hobbies</a>
+            </nav>
+            <a href="#contact" class="nav-cta">Start a Story</a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <svg id="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+                </svg>
+                <svg id="close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+            <div class="mobile-menu-inner">
+                <a href="#about">About</a>
+                <a href="#work">Work</a>
+                <a href="#projects">Projects</a>
+                <a href="#hobbies">Hobbies</a>
+                <a href="#resume">Resume</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    HERO (The Blue Zone)
+    ============================================================ -->
+    <section class="hero">
+        <div class="scanlines"></div>
+        <div class="grid-bg"></div>
+        <div class="glow-orb glow-orb--yellow"></div>
+        <div id="progress-bar"></div>
+
+        <div class="hero-content">
+            <h1>I write <span class="story">stories<svg class="spark-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg></span> with heart, and explore how systems work.</h1>
+            <div class="typewriter-wrap">
+                <span id="typewriter-text"></span><span id="typewriter-cursor"></span>
+            </div>
+            <p>
+                A creative writer inspired by emotional storytelling, and a curious Cyber Security student taking my first steps into engineering. This is a space for the things I am figuring out, building, and rewriting.
+            </p>
+            <div class="hero-cta-row">
+                <a href="#projects" class="btn-primary">Explore the Sandbox</a>
+                <a href="#contact" class="btn-secondary">Start a conversation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    ABOUT
+    ============================================================ -->
+    <section class="section" id="about">
+        <div class="section-head">
+            <h2 class="reveal">&gt; about</h2>
+        </div>
+        <div class="about-container">
+            <div class="about-image reveal-left">
+                <img src="profile_pic.jpg" alt="Shamhithan V U" loading="lazy">
+            </div>
+            <div class="about-text reveal-stagger">
+                <p>
+                    I'm <strong>Shamhithan V U</strong> — a storyteller and systems thinker.
+                    I believe that <strong>security and empathy</strong> are not opposing forces.
+                    I bridge the gap between robust infrastructure and human-centered design.
+                </p>
+                <p>
+                    With a background in creative writing and a growing expertise in cyber security,
+                    I help build systems that are both <strong>resilient</strong> and <strong>meaningful</strong>.
+                </p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Creative Writing</span>
+                    <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Screenplay Structure</span>
+                    <span class="skill-tag">Systems Thinking</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    WORK — Timeline
+    ============================================================ -->
+    <section class="section" id="work">
+        <div class="section-head">
+            <h2 class="reveal">&gt; timeline</h2>
+        </div>
+        <div class="timeline reveal-stagger">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h3>Engineering Student</h3>
+                <div class="subtitle">Learning Cyber Security — Batch 2025–2029</div>
+                <p>Building a solid foundation in computer science and exploring the core concepts of securing digital systems from the ground up.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h3>Writer &amp; Designer</h3>
+                <div class="subtitle">Self-initiated — 2024–Present</div>
+                <p>Writing stories and designing posters, driven entirely by passion. I am organically exploring my creative side—no corporate clients yet, just a genuine love for crafting narratives and visual art.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    PROJECTS — Sandbox Cards 
+    ============================================================ -->
+    <section class="section" id="projects">
+        <div class="section-head">
+            <h2 class="reveal badge-heading">&gt; projects_repo</h2>
+            <p class="section-desc">A sandbox of ideas where storytelling meets systems engineering.</p>
+        </div>
+        <div class="card-grid reveal-stagger">
+            <!-- Card 1: Creative Writing -->
+            <div class="card">
+                <span class="card-tag">Storytelling</span>
+                <h3>Writer of Emotion-Driven Stories</h3>
+                <p>I write cinematic stories that explore human connection, conflict, and hope. My work blends emotional realism with visual storytelling, focusing on characters whose choices transform not only themselves but the communities around them. Whether it's drama, mystery, or romance, I aim to create stories that stay with audiences long after the final scene.</p>
+                <div class="project-tags">
+                    <span class="project-tag">Drama</span>
+                    <span class="project-tag">Family</span>
+                </div>
+            </div>
+
+            <!-- Card 2: Hardware Philosophy -->
+            <div class="card card--eng">
+                <span class="card-tag engineering">Hardware Concept</span>
+                <h3>RE-CORE Architecture</h3>
+                <p>A comprehensive conceptual framework exploring a <b>Brain vs. Body</b> philosophy for modular hardware. RE-CORE fundamentally rethinks how people interact with their devices by entirely decoupling the processing core from the physical chassis. Instead of discarding an entire system when its performance slows, it allows seamless, plug-and-play processor upgrades—designed to drastically reduce e-waste and build a more adaptable tech ecosystem.</p>
+                <div class="project-tags">
+                    <span class="project-tag">Sustainability</span>
+                    <span class="project-tag">Modular</span>
+                </div>
+            </div>
+
+            <!-- Card 3: App Development -->
+            <div class="card card--code">
+                <span class="card-tag coding">App Logic</span>
+                <h3>TooTTrack</h3>
+                <p>A robust tuition management platform engineered to untangle complex student data workflows. TooTTrack was built to solve a real organizational bottleneck, serving as a scalable way to track information efficiently. More than just an application, it was a foundational deep dive into data structuring, state management, and translating real-world human needs into a seamless digital experience.</p>
+                <div class="project-tags">
+                    <span class="project-tag">Education</span>
+                    <span class="project-tag">React</span>
+                </div>
+            </div>
+
+            <!-- Card 4: Game Development -->
+            <div class="card card--game">
+                <span class="card-tag game">Game Logic</span>
+                <h3>Snake Game</h3>
+                <p>A pure nostalgia trip built on Vercel. This classic Snake game is designed to capture the exact, unadulterated energy of early mobile games. It served as a hands-on playground to experiment with core programming fundamentals—continuous game loops, coordinate-based grid movement, and dynamic state management.</p>
+                <div class="project-tags">
+                    <span class="project-tag">Retro</span>
+                    <span class="project-tag">JavaScript</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    HOBBIES (Clean SVGs)
+    ============================================================ -->
+    <section class="section" id="hobbies">
+        <div class="section-head">
+            <h2 class="reveal">&gt; hobbies_scan</h2>
+        </div>
+        <div class="tags reveal-stagger">
+            <span class="tag">
+                <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                Reading
+            </span>
+            <span class="tag">
+                <svg viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path></svg>
+                Creative writing
+            </span>
+            <span class="tag">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                UI/UX sketching
+            </span>
+            <span class="tag">
+                <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                Coffee brewing
+            </span>
+            <span class="tag">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                Movie buff
+            </span>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    RESUME (Now identically animated as a Card)
+    ============================================================ -->
+    <section class="section" id="resume">
+        <div class="section-head">
+            <h2 class="reveal">&gt; resume</h2>
+        </div>
+        
+        <div class="card card--eng reveal" style="max-width: 500px; align-items: center; text-align: center; margin: 0;">
+            <span class="card-tag engineering">Document</span>
+            <h3>resume.pdf</h3>
+            <p style="margin-bottom: 1.5rem;">A concise one-pager with my education, skills, and creative experience.</p>
+            <a href="#" class="resume-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v13"/><path d="M7 12l5 5 5-5"/><path d="M5 19h14"/>
+                </svg>
+                Download Resume
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CONTACT (Now identically animated as Cards)
+    ============================================================ -->
+    <section class="section" id="contact">
+        <div class="section-head">
+            <h2 class="reveal">&gt; ping_me</h2>
+        </div>
+        
+        <div class="contact-container">
+            <!-- Contact Info wrapped in a brutalist card -->
+            <div class="card card--game contact-info reveal">
+                <span class="card-tag game">Connect</span>
+                <h3>Let's build something.</h3>
+                <p style="margin-bottom: 2rem;">Drop a message — I read everything.</p>
+                
+                <p><span class="label">Email</span><span class="value"><a href="mailto:shamhithanvu4@gmail.com">shamhithanvu4@gmail.com</a></span></p>
+                <p><span class="label">LinkedIn</span><span class="value"><a href="#">linkedin.com/in/shamhithan</a></span></p>
+                <p><span class="label">GitHub</span><span class="value"><a href="#">github.com/shamhithan</a></span></p>
+                <p><span class="label">Location</span><span class="value">Student at S.R.M IST Ramapuram CSE with Cyber Security department.<br>Chennai, Tamil Nadu 600107</span></p>
+                <p><span class="label">Contact No</span><span class="value"><a href="tel:8148365776">8148365776</a></span></p>
+            </div>
+
+            <!-- Contact Form wrapped in a brutalist card -->
+            <form class="card card--code contact-form reveal" action="#" method="POST" id="contact-form">
+                <span class="card-tag coding">Send Message</span>
+                <div class="field-wrap">
+                    <input type="text" name="name" id="name" placeholder="Your name" required autocomplete="name">
+                    <label for="name">Your name</label>
+                </div>
+                <div class="field-wrap">
+                    <input type="email" name="email" id="email" placeholder="Your email" required autocomplete="email">
+                    <label for="email">Your email</label>
+                </div>
+                <div class="field-wrap textarea-wrap">
+                    <textarea name="message" id="message" rows="4" placeholder="What's on your mind?" required></textarea>
+                    <label for="message">What's on your mind?</label>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer>
+        <p>© 2026 Shamhithan V U — Built with curiosity, empathy, and <span>caffeine.</span></p>
+    </footer>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        'use strict';
+
+        /* 1 & 2. SCROLL PROGRESS BAR + HEADER COMPACT ON SCROLL
+           Combined into a single rAF-batched listener so both updates land in the
+           same paint frame instead of two independent, potentially out-of-sync reads. */
+        const progressBar = document.getElementById('progress-bar');
+        const header = document.getElementById('site-header');
+        let scrollTicking = false;
+
+        function onScrollFrame() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = pct + '%';
+            header.classList.toggle('scrolled', scrollTop > 40);
+            scrollTicking = false;
+        }
+
+        window.addEventListener('scroll', function() {
+            if (!scrollTicking) {
+                scrollTicking = true;
+                requestAnimationFrame(onScrollFrame);
+            }
+        }, { passive: true });
+
+        /* 3. MOBILE MENU */
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        hamburger.addEventListener('click', function() {
+            const isOpen = mobileMenu.classList.contains('open');
+            mobileMenu.classList.toggle('open');
+            hamburger.setAttribute('aria-expanded', String(!isOpen));
+            mobileMenu.setAttribute('aria-hidden', String(isOpen));
+            menuIcon.style.display = isOpen ? 'block' : 'none';
+            closeIcon.style.display = isOpen ? 'none' : 'block';
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.remove('open');
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        /* 4. INTERSECTION OBSERVER — scroll reveals */
+        const revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    if (entry.target.tagName === 'H2') {
+                        entry.target.classList.add('line-drawn');
+                    }
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal, .reveal-left').forEach(function(el) { revealObserver.observe(el); });
+        document.querySelectorAll('.reveal-stagger').forEach(function(el) { revealObserver.observe(el); });
+
+        /* 5. ACTIVE NAV LINK ON SCROLL */
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+
+        const navObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(function(a) { a.classList.remove('active'); });
+                    const active = document.querySelector('.nav-links a[data-section="' + entry.target.id + '"]');
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.30 });
+
+        sections.forEach(function(s) { navObserver.observe(s); });
+
+        /* 6. TYPEWRITER — hero role cycling */
+        (function() {
+            const roles = ['Storyteller', 'Systems Thinker', 'Cyber Security Student', 'Designer'];
+            const el = document.getElementById('typewriter-text');
+            let roleIdx = 0;
+            let charIdx = 0;
+            let deleting = false;
+            const pauseMs = 1600;
+
+            function typeStep() {
+                const current = roles[roleIdx];
+                if (!deleting) {
+                    charIdx++;
+                    el.textContent = current.slice(0, charIdx);
+                    if (charIdx === current.length) {
+                        deleting = true;
+                        setTimeout(typeStep, pauseMs);
+                        return;
+                    }
+                    setTimeout(typeStep, 65);
+                } else {
+                    charIdx--;
+                    el.textContent = current.slice(0, charIdx);
+                    if (charIdx === 0) {
+                        deleting = false;
+                        roleIdx = (roleIdx + 1) % roles.length;
+                        setTimeout(typeStep, 350);
+                        return;
+                    }
+                    setTimeout(typeStep, 38);
+                }
+            }
+            setTimeout(typeStep, 900);
+        })();
+
+        /* 7. CONTACT FORM — submit feedback */
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = contactForm.querySelector('button[type="submit"]');
+                const orig = btn.textContent;
+                btn.textContent = '✓ Sent!';
+                btn.style.background = '#43A047';
+                btn.style.color = '#FFFFFF';
+                btn.disabled = true;
+                setTimeout(function() {
+                    btn.textContent = orig;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.disabled = false;
+                    contactForm.reset();
+                }, 3000);
+            });
+        }
+
+        /* 8. CLOSE MOBILE MENU ON RESIZE */
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768 && mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        /* 9. STORY MARKER COLOR
+           IMPORTANT: this runs synchronously at parse time, before the browser's first paint.
+           If we set storySpan.style.color right here, there's no rendered "white" frame for
+           the CSS transition to animate FROM — the browser just paints straight to dark and
+           the 1.6s transition-delay in the stylesheet never gets a chance to run.
+           Waiting two animation frames guarantees the initial white state has actually been
+           painted first, so the color change that follows triggers a real, visible transition. */
+        const storySpan = document.querySelector('.story');
+        if (storySpan) {
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    storySpan.style.color = 'var(--text-black)';
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
