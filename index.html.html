@@ -382,6 +382,16 @@
         .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.2rem; }
         .project-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); background: var(--paper); padding: 3px 12px; border-radius: 4px; border: 1px solid var(--text-muted); font-weight: 800; font-family: var(--font-code); }
 
+        .project-link {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 1.2rem;
+            font-family: var(--font-code); font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.04em; color: var(--text-black); text-decoration: none; align-self: flex-start;
+            border-bottom: 2px solid var(--border-ink); padding-bottom: 2px; transition: transform 0.25s var(--bounce), gap 0.25s var(--bounce);
+        }
+        .project-link svg { width: 13px; height: 13px; transition: transform 0.25s var(--bounce); }
+        .project-link:hover { gap: 10px; transform: translate(-2px, -2px); }
+        .project-link:hover svg { transform: translate(2px, -2px); }
+
         /* ============================================================
            HOBBIES / TAGS (SVG Icons only)
            ============================================================ */
@@ -545,13 +555,16 @@
         </div>
         <div class="about-container">
             <div class="about-image reveal-left">
-                <img src="profile_pic.jpg" alt="Shamhithan V U" loading="lazy">
+                <img src="your-photo.jpg" alt="Shamhithan V U" loading="lazy">
             </div>
             <div class="about-text reveal-stagger">
                 <p>
                     I'm <strong>Shamhithan V U</strong> — a storyteller and systems thinker.
                     I believe that <strong>security and empathy</strong> are not opposing forces.
                     I bridge the gap between robust infrastructure and human-centered design.
+                </p>
+                <p>
+                    <strong>Writer of Emotion-Driven Stories.</strong> I write cinematic stories that explore human connection, conflict, and hope. My work blends emotional realism with visual storytelling, focusing on characters whose choices transform not only themselves but the communities around them. Whether it's drama, mystery, or romance, I aim to create stories that stay with audiences long after the final scene.
                 </p>
                 <p>
                     With a background in creative writing and a growing expertise in cyber security,
@@ -609,6 +622,10 @@
                     <span class="project-tag">Drama</span>
                     <span class="project-tag">Family</span>
                 </div>
+                <a href="https://haven-three-murex.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer">
+                    View Project
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
             </div>
 
             <!-- Card 2: Hardware Philosophy -->
@@ -620,6 +637,10 @@
                     <span class="project-tag">Sustainability</span>
                     <span class="project-tag">Modular</span>
                 </div>
+                <a href="https://recore-three.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer">
+                    View Project
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
             </div>
 
             <!-- Card 3: App Development -->
@@ -631,6 +652,10 @@
                     <span class="project-tag">Education</span>
                     <span class="project-tag">React</span>
                 </div>
+                <a href="https://too-t-track.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer">
+                    View Project
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
             </div>
 
             <!-- Card 4: Game Development -->
@@ -642,6 +667,10 @@
                     <span class="project-tag">Retro</span>
                     <span class="project-tag">JavaScript</span>
                 </div>
+                <a href="https://v0-snake-game-o3fle3am8-shamhithanvu4-webs-projects.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer">
+                    View Project
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
             </div>
         </div>
     </section>
@@ -834,7 +863,7 @@
 
         /* 6. TYPEWRITER — hero role cycling */
         (function() {
-            const roles = ['Storyteller', 'Systems Thinker', 'Cyber Security Student', 'Designer','Photography'];
+            const roles = ['Storyteller', 'Systems Thinker', 'Cyber Security Student', 'Storywriter', 'Designer','Photography'];
             const el = document.getElementById('typewriter-text');
             let roleIdx = 0;
             let charIdx = 0;
