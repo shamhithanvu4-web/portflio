@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shamhithan V U | Systems</title>
+    <title>Shamhithan V U | Stories & Systems</title>
 
-    <!-- Fonts: Nunito for a warm feel, JetBrains Mono for technical precision -->
+    <!-- Fonts: Nunito for warm storytelling, JetBrains Mono for technical precision -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Nunito:wght@300;400;600;800;900&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
             --shadow-hard-green-hover: 10px 10px 0px rgba(67, 160, 71, 0.45);
 
             /* Typography */
-            --font-body: 'Nunito', sans-serif;
+            --font-story: 'Nunito', sans-serif;
             --font-code: 'JetBrains Mono', monospace;
         }
 
@@ -64,7 +64,7 @@
             /* The body is now the warm notebook paper */
             background-color: var(--paper);
             color: var(--text-black);
-            font-family: var(--font-body);
+            font-family: var(--font-story);
             line-height: 1.65;
             overflow-x: hidden;
         }
@@ -190,13 +190,13 @@
             opacity: 0; animation: heroFadeUp 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        .hero h1 .highlight {
+        .hero h1 .story {
             position: relative; display: inline-block; z-index: 1; color: #FFFFFF;
             /* Delay matches the marker's own draw time (0.4s delay + 1.2s duration = 1.6s)
                so the text only darkens once the yellow highlight has fully painted in. */
             transition: color 0.35s ease 1.6s;
         }
-        .hero h1 .highlight::after {
+        .hero h1 .story::after {
             content: ''; position: absolute; height: 110%; bottom: -5%; left: -2%; background-color: var(--luxo-yellow);
             z-index: -1; border-radius: 4px; transform: rotate(-1.5deg); width: 0;
             animation: drawMarker 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 0.4s;
@@ -429,7 +429,7 @@
 
         .contact-form input, .contact-form textarea {
             width: 100%; padding: 1rem; border: 2px solid var(--border-ink); border-radius: 6px;
-            font-size: 0.95rem; font-family: var(--font-body); resize: vertical; outline: none;
+            font-size: 0.95rem; font-family: var(--font-story); resize: vertical; outline: none;
             background: #FFFFFF; color: var(--text-black); transition: border-color 0.2s, box-shadow 0.2s; font-weight: 700;
         }
         .contact-form input::placeholder, .contact-form textarea::placeholder { color: transparent; }
@@ -500,7 +500,7 @@
                 <a href="#projects" data-section="projects">Projects</a>
                 <a href="#hobbies" data-section="hobbies">Hobbies</a>
             </nav>
-            <a href="#contact" class="nav-cta">Get in Touch</a>
+            <a href="#contact" class="nav-cta">Start a Story</a>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
                 <svg id="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
@@ -532,12 +532,12 @@
         <div id="progress-bar"></div>
 
         <div class="hero-content">
-            <h1>I design <span class="highlight">systems<svg class="spark-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg></span> with heart, and explore how they work.</h1>
+            <h1>I write <span class="story">stories<svg class="spark-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg></span> with heart, and explore how systems work.</h1>
             <div class="typewriter-wrap">
                 <span id="typewriter-text"></span><span id="typewriter-cursor"></span>
             </div>
             <p>
-                A curious Cyber Security student taking my first steps into engineering, with a growing eye for design. This is a space for the things I am figuring out and building.
+                A creative writer inspired by emotional storytelling, and a curious Cyber Security student taking my first steps into engineering. This is a space for the things I am figuring out, building, and rewriting.
             </p>
             <div class="hero-cta-row">
                 <a href="#projects" class="btn-primary">Explore the Sandbox</a>
@@ -559,18 +559,22 @@
             </div>
             <div class="about-text reveal-stagger">
                 <p>
-                    I'm <strong>Shamhithan V U</strong> — a systems thinker and designer.
+                    I'm <strong>Shamhithan V U</strong> — a storyteller and systems thinker.
                     I believe that <strong>security and empathy</strong> are not opposing forces.
                     I bridge the gap between robust infrastructure and human-centered design.
                 </p>
                 <p>
-                    With a growing expertise in cyber security and UI/UX design,
+                    <strong>Writer of Emotion-Driven Stories.</strong> I write cinematic stories that explore human connection, conflict, and hope. My work blends emotional realism with visual storytelling, focusing on characters whose choices transform not only themselves but the communities around them. Whether it's drama, mystery, or romance, I aim to create stories that stay with audiences long after the final scene.
+                </p>
+                <p>
+                    With a background in creative writing and a growing expertise in cyber security,
                     I help build systems that are both <strong>resilient</strong> and <strong>meaningful</strong>.
                 </p>
                 <div class="skill-tags">
+                    <span class="skill-tag">Creative Writing</span>
                     <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Screenplay Structure</span>
                     <span class="skill-tag">Systems Thinking</span>
-                    <span class="skill-tag">Photography</span>
                 </div>
             </div>
         </div>
@@ -592,9 +596,9 @@
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <h3>Designer</h3>
+                <h3>Writer &amp; Designer</h3>
                 <div class="subtitle">Self-initiated — 2024–Present</div>
-                <p>Designing posters, driven entirely by passion. I am organically exploring my creative side—no corporate clients yet, just a genuine love for visual art.</p>
+                <p>Writing stories and designing posters, driven entirely by passion. I am organically exploring my creative side—no corporate clients yet, just a genuine love for crafting narratives and visual art.</p>
             </div>
         </div>
     </section>
@@ -605,9 +609,24 @@
     <section class="section" id="projects">
         <div class="section-head">
             <h2 class="reveal badge-heading">&gt; projects_repo</h2>
-            <p class="section-desc">A sandbox of ideas exploring design and systems engineering.</p>
+            <p class="section-desc">A sandbox of ideas where storytelling meets systems engineering.</p>
         </div>
         <div class="card-grid reveal-stagger">
+            <!-- Card 1: Creative Writing -->
+            <div class="card">
+                <span class="card-tag">Storytelling</span>
+                <h3>The Golden Hour</h3>
+                <p>A character-driven screenplay exploring the delicate bonds of family and the bittersweet realities of growing up. Rooted in warm memories, it is written to capture the quiet, warm moments that shape who we ultimately become.</p>
+                <div class="project-tags">
+                    <span class="project-tag">Drama</span>
+                    <span class="project-tag">Family</span>
+                </div>
+                <a href="https://haven-three-murex.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer">
+                    View Project
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+
             <!-- Card 2: Hardware Philosophy -->
             <div class="card card--eng">
                 <span class="card-tag engineering">Hardware Concept</span>
@@ -843,7 +862,7 @@
 
         /* 6. TYPEWRITER — hero role cycling */
         (function() {
-            const roles = ['Storyteller', 'Systems Thinker', 'Cyber Security Student', 'Storywriter', 'Designer','Photography'];
+            const roles = ['Storyteller', 'Systems Thinker', 'Cyber Security Student', 'Storywriter', 'Designer'];
             const el = document.getElementById('typewriter-text');
             let roleIdx = 0;
             let charIdx = 0;
