@@ -748,7 +748,7 @@
             </div>
 
             <!-- Contact Form wrapped in a brutalist card -->
-            <form class="card card--code contact-form reveal" action="#" method="POST" id="contact-form">
+            <form class="card card--code contact-form reveal" action="https://formspree.io/f/mgogagbp" method="POST" id="contact-form">
                 <span class="card-tag coding">Send Message</span>
                 <div class="field-wrap">
                     <input type="text" name="name" id="name" placeholder="Your name" required autocomplete="name">
@@ -894,17 +894,39 @@
             setTimeout(typeStep, 900);
         })();
 
-        /* 7. CONTACT FORM — submit feedback */
-        const contactForm = document.getElementById('contact-form');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const btn = contactForm.querySelector('button[type="submit"]');
-                const orig = btn.textContent;
-                btn.textContent = '✓ Sent!';
+    
+/* 7. CONTACT FORM — submit feedback */
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Prevents the default page redirect
+        const btn = contactForm.querySelector('button[type="submit"]');
+        const orig = btn.textContent;
+        
+        // Optional: Show a loading state
+        btn.textContent = 'SENDING...';
+        
+        // Gather the form data
+        const formData = new FormData(contactForm);
+        
+        try {
+            // Send the data to your Formspree URL
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                // Trigger your success animation
+                btn.textContent = '✓ SENT!';
                 btn.style.background = '#43A047';
                 btn.style.color = '#FFFFFF';
                 btn.disabled = true;
+                
+                // Reset form and button after 3 seconds
                 setTimeout(function() {
                     btn.textContent = orig;
                     btn.style.background = '';
@@ -912,9 +934,22 @@
                     btn.disabled = false;
                     contactForm.reset();
                 }, 3000);
-            });
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        } catch (error) {
+            // Handle errors cleanly
+            btn.textContent = 'X ERROR';
+            btn.style.background = '#E53935';
+            btn.style.color = '#FFFFFF';
+            setTimeout(function() {
+                btn.textContent = orig;
+                btn.style.background = '';
+                btn.style.color = '';
+            }, 3000);
         }
-
+    });
+}
         /* 8. CLOSE MOBILE MENU ON RESIZE */
         window.addEventListener('resize', function() {
             if (window.innerWidth >= 768 && mobileMenu.classList.contains('open')) {
